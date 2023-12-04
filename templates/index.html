@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPT Chat</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div id="chat-window">
-        <div class="chat-header d-flex justify-content-between align-items-center p-3">
-            <h2 id="chat-title" class="mb-0">GPT Chat</h2>
-            <form method="post" action="/clear_chat">
-                <button type="submit" class="btn btn-secondary">Clear Chat</button>
-            </form>
-        </div>
-        <div id="message-area">
-            {% for message in chat_history %}
-            <div class="message user-message">
-                {{ message.question }}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GPT Chat</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <div id="chat-window">
+            <div class="chat-header d-flex justify-content-between align-items-center p-3">
+                <h2 id="chat-title" class="mb-0">GPT Chat</h2>
+                <button type="button" id="clear-chat" class="btn btn-secondary">Clear Chat</button>
             </div>
-            <div class="message bot-message">
-                {{ message.answer }}
+            <div id="message-area">
             </div>
-            {% endfor %}
+            <div id="chat-input">
+                <form id="ask-form" class="form-inline d-flex justify-content-between" method="post">
+                    <input type="text" name="question" class="form-control flex-grow-1 mr-2" placeholder="Enter a message...">
+                    <select name="language" class="form-control mr-2">
+                        {% for code, language in languages.items() %}
+                        <option value="{{ code }}" {% if selected_language == code %} selected {% endif %}>{{ language }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
         </div>
-        <div id="chat-input">
-            <form class="form-inline d-flex justify-content-between" method="post">
-                <input type="text" name="question" class="form-control flex-grow-1 mr-2" placeholder="Digite uma mensagem...">
-                <select name="language" class="form-control mr-2">
-                    {% for code, language in languages.items() %}
-                    <option value="{{ code }}" {% if selected_language == code %} selected {% endif %}>{{ language }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form>
-        </div>
-    </div>
 
-    <!-- Include Bootstrap JS and its dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
+        <!-- Include Bootstrap JS and its dependencies -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        
+        <!-- External JavaScript files -->
+        <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    </body>
 </html>
