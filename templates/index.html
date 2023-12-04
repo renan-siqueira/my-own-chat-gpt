@@ -9,20 +9,20 @@
     </head>
     <body>
         <div id="chat-window">
-            <h2 id="chat-title" class="text-center p-3 mb-0">GPT Chat</h2>
+            <div class="chat-header d-flex justify-content-between align-items-center p-3">
+                <h2 id="chat-title" class="mb-0">GPT Chat</h2>
+                <button type="button" id="clear-chat" class="btn btn-secondary">Clear Chat</button>
+            </div>
             <div id="message-area">
-                {% for message in chat_history %}
-                <div class="message user-message">
-                    {{ message.question }}
-                </div>
-                <div class="message bot-message">
-                    {{ message.answer }}
-                </div>
-                {% endfor %}
             </div>
             <div id="chat-input">
-                <form class="form-inline d-flex justify-content-between" method="post">
-                    <input type="text" name="question" class="form-control flex-grow-1 mr-2" placeholder="Type a message...">
+                <form id="ask-form" class="form-inline d-flex justify-content-between" method="post">
+                    <input type="text" name="question" class="form-control flex-grow-1 mr-2" placeholder="Enter a message...">
+                    <select name="language" class="form-control mr-2">
+                        {% for code, language in languages.items() %}
+                        <option value="{{ code }}" {% if selected_language == code %} selected {% endif %}>{{ language }}</option>
+                        {% endfor %}
+                    </select>
                     <button type="submit" class="btn btn-primary">Send</button>
                 </form>
             </div>
@@ -32,5 +32,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        
+        <!-- External JavaScript files -->
+        <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
     </body>
 </html>
